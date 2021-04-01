@@ -186,9 +186,13 @@ def make_gif(input_path: str, output_dir: str,
 
     # Save the result and append the path to output_paths
     basename = os.path.basename(input_path)
-    outname = '{}_glitch.gif'.format(os.path.splitext(basename)[0])
-    out_path = os.path.join(output_dir, outname)
-
+    if output_dir.endswith(('.mp4', '.gif')):
+        out_path = output_dir
+    elif output_dir.endswith(('/', '.')):
+        outname =  '{}_glitch.gif'.format(os.path.splitext(basename)[0])
+        out_path = os.path.join(output_dir, outname)
+    else:
+        out_path = output_dir + '.gif'
     # Call save() on the first frame, and add the rest in the args
     if progress_bar:
         progress_bar.set_description('{}: Saving'.format(out_path))
