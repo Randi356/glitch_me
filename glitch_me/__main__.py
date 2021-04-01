@@ -111,8 +111,13 @@ def make_still(input_path: str, output_dir: str,
 
     # Save the result and append the path to output_paths
     basename = os.path.basename(input_path)
-    outname = '{}_glitch.png'.format(os.path.splitext(basename)[0])
-    out_path = os.path.join(output_dir, outname)
+    if output_dir.endswith(('png', 'jpg', 'jpeg', 'webp')):
+        out_path = output_dir
+    elif output_dir.endswith(('/', '.')):
+        outname =  '{}_glitch.png'.format(os.path.splitext(basename)[0])
+        out_path = os.path.join(output_dir, outname)
+    else:
+        out_path = output_dir + '.png'
     if progress_bar:
         progress_bar.set_description('{}: Saving'.format(out_path))
     output.save(out_path)
